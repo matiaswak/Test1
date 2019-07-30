@@ -44,7 +44,7 @@ server <- shinyServer(function(input, output, session){
       dashpath <- path.expand(paste0(path, "/DASH/app"))
       writeLines(text = data_decrypted, con = "~/DASH/app/app.R")
       
-      writeLines(text = paste0('shiny::runApp("', dashpath, '", launch.browser=TRUE)'),
+      writeLines(text = paste0('shiny::runApp("', gsub("\\", "/", dashpath), '", launch.browser=TRUE)'),
                  con = "~/DASH/app/exe")
       
       exe <- paste0('R CMD BATCH  "', paste0(dashpath, "/exe"),'"')
