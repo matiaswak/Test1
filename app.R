@@ -31,7 +31,7 @@ server <- shinyServer(function(input, output, session){
     pass <- digest(paste0(input$password_to_dash, "password_to_dash"), algo = "sha256", serialize = FALSE)
     if(substr(pass, 1, 5) == "0bb33"){
       shinyjs::info("Initializing")
-      con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/app2")
+      con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/EncryptedApp")
       data_raw <- readLines(con)
       close(con)
       path <- path.expand("~")
