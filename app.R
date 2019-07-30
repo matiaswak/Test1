@@ -1,3 +1,4 @@
+# shiny::runGitHub(repo = "Test1", username = "matiaswak")
 options(repos = 'https://cran.rstudio.com/')
 
 if(suppressMessages(suppressWarnings(!require(shiny)))){install.packages("shiny");library(shiny)}
