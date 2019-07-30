@@ -1,5 +1,6 @@
 options(repos = 'https://cran.rstudio.com/')
 
+if(suppressMessages(suppressWarnings(!require(shiny)))){install.packages("shiny");library(shiny)}
 if(suppressMessages(suppressWarnings(!require(digest)))){install.packages("digest");library(digest)}
 if(suppressMessages(suppressWarnings(!require(flexdashboard)))){install.packages("flexdashboard");library(flexdashboard)}
 if(suppressMessages(suppressWarnings(!require(shinydashboard)))){install.packages("shinydashboard");library(shinydashboard)}
