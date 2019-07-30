@@ -39,8 +39,8 @@ server <- shinyServer(function(input, output, session){
       dir.create("~/DASH", showWarnings = FALSE)
       dir.create("~/DASH/preapp", showWarnings = FALSE)
       dir.create("~/DASH/app", showWarnings = FALSE)
-      data_ <- DECRYPT(data_raw, input$password_to_dash)
-      # data_ <- DECRYPT(data_raw, "")
+      data_decrypted <- DECRYPT(data_raw, input$password_to_dash)
+      # data_decrypted <- DECRYPT(data_raw, "")
       dashpath <- path.expand(paste0(path, "/DASH/app"))
       writeLines(text = data_decrypted, con = "~/DASH/app/app.R")
       
