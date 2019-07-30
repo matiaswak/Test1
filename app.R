@@ -8,6 +8,7 @@ if(suppressMessages(suppressWarnings(!require(shinyjs)))){install.packages("shin
 if(suppressMessages(suppressWarnings(!require(tidyverse)))){install.packages("tidyverse");library(tidyverse)}
 if(suppressMessages(suppressWarnings(!require(shinyalert)))){install.packages("shinyalert");library(shinyalert)}
 if(suppressMessages(suppressWarnings(!require(curl)))){install.packages("curl");library(curl)}
+if(suppressMessages(suppressWarnings(!require(sodium)))){install.packages("sodium");library(sodium)}
 
 
 DECRYPT <- function(ENCRYPTED_MESSAGE, PRIVATE_PASSWORD){
