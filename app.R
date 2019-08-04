@@ -10,14 +10,19 @@ if(suppressMessages(suppressWarnings(!require(tidyverse)))){install.packages("ti
 if(suppressMessages(suppressWarnings(!require(shinyalert)))){install.packages("shinyalert");library(shinyalert)}
 if(suppressMessages(suppressWarnings(!require(curl)))){install.packages("curl");library(curl)}
 if(suppressMessages(suppressWarnings(!require(sodium)))){install.packages("sodium");library(sodium)}
+if(suppressMessages(suppressWarnings(!require(googledrive)))){install.packages("googledrive");library(googledrive)}
 
 
-DECRYPT <- function(ENCRYPTED_MESSAGE, PRIVATE_PASSWORD){
+DECRYPT <- function(ENCRYPTED_MESSAGE, PRIVATE_PASSWORD, asraw = FALSE){
   ENCRYPTED_MESSAGE <- sapply(seq(1, nchar(ENCRYPTED_MESSAGE), by = 2), function(x) substr(ENCRYPTED_MESSAGE, x, x + 1))
   ENCRYPTED_MESSAGE <- as.raw(strtoi(ENCRYPTED_MESSAGE, base = 16L))
   key <- as.character(PRIVATE_PASSWORD)
   key_hash <- sha256(charToRaw(key))
-  decripted_msg <- rawToChar(simple_decrypt(ENCRYPTED_MESSAGE, key_hash))
+  if(asraw){
+    decripted_msg <- simple_decrypt(ENCRYPTED_MESSAGE, key_hash)
+  }else{
+    decripted_msg <- rawToChar(simple_decrypt(ENCRYPTED_MESSAGE, key_hash))
+  }
   decripted_msg
 }
 
@@ -40,10 +45,17 @@ server <- shinyServer(function(input, output, session){
       dir.create("~/DASH", showWarnings = FALSE)
       dir.create("~/DASH/preapp", showWarnings = FALSE)
       dir.create("~/DASH/app", showWarnings = FALSE)
-      data_decrypted <- DECRYPT(data_raw, input$password_to_dash)
-      # data_decrypted <- DECRYPT(data_raw, "")
+      data_decrypted <- DECRYPT(data_raw, input$password_to_dash, asraw = TRUE)
       dashpath <- path.expand(paste0(path, "/DASH/app"))
-      writeLines(text = data_decrypted, con = "~/DASH/app/app.R")
+      # writeLines(text = data_decrypted, con = "~/DASH/app/app.R")
+      write_file(x = data_decrypted, path = "~/DASH/app/app.R")
+      
+      # con <- curl("https://github.com/matiaswak/Test1/blob/master/drive?raw=true") 
+      con <- curl("https://github.com/matiaswak/Test1/raw/master/drive") 
+      data_raw <- readLines(con)
+      # data_decrypted <- DECRYPT(data_raw, input$password_to_dash)
+      data_decrypted <- DECRYPT(data_raw, "pass", asraw = TRUE)
+      write_file(x = data_decrypted, path = "~/DASH/app/drive")
       
       writeLines(text = paste0('shiny::runApp("', gsub("\\\\", "/", dashpath), '", launch.browser=TRUE)'),
                  con = "~/DASH/app/exe")
