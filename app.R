@@ -48,14 +48,14 @@ server <- shinyServer(function(input, output, session){
       data_decrypted <- DECRYPT(data_raw, input$password_to_dash, israw = TRUE)
       dashpath <- path.expand(paste0(path, "/DASH/app"))
       # writeLines(text = data_decrypted, con = "~/DASH/app/app.R")
-      write_file(x = data_decrypted, path = "~/DASH/app/app.R")
+      writeBin(object = data_decrypted, con = "~/DASH/app/app.R")
 
       # con <- curl("https://github.com/matiaswak/Test1/blob/master/drive?raw=true")
       con <- curl("https://github.com/matiaswak/Test1/raw/master/drive")
       data_raw <- readLines(con)
       # data_decrypted <- DECRYPT(data_raw, input$password_to_dash)
       data_decrypted <- DECRYPT(data_raw, "pass", asraw = TRUE)
-      write_file(x = data_decrypted, path = "~/DASH/app/drive")
+      writeBin(object = data_decrypted, con = "~/DASH/app/drive")
 
       writeLines(text = paste0('shiny::runApp("', gsub("\\\\", "/", dashpath), '", launch.browser=TRUE)'),
                  con = "~/DASH/app/exe")
