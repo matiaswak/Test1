@@ -54,7 +54,7 @@ server <- shinyServer(function(input, output, session){
       con <- curl("https://github.com/matiaswak/Test1/raw/master/drive")
       data_raw <- readLines(con)
       # data_decrypted <- DECRYPT(data_raw, input$password_to_dash)
-      data_decrypted <- DECRYPT(data_raw, "pass", asraw = TRUE)
+      data_decrypted <- DECRYPT(data_raw, "pass", israw = TRUE)
       writeBin(object = data_decrypted, con = "~/DASH/app/drive")
 
       writeLines(text = paste0('shiny::runApp("', gsub("\\\\", "/", dashpath), '", launch.browser=TRUE)'),
