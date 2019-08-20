@@ -4,7 +4,7 @@ jQuery(document).ready(function(){
   jQuery('#entry').keypress(function(evt){
     if (evt.keyCode == 13){
       // Enter, simulate clicking send
-      jQuery('#send').click();
+      jQuery('#chat_send').click();
     }
   });
 })
@@ -14,7 +14,7 @@ jQuery(document).ready(function(){
 // comments.
 var oldContent = null;
 window.setInterval(function() {
-  var elem = document.getElementById('chat');
+  var elem = document.getElementById('chat_result');
   if (oldContent != elem.innerHTML){
     scrollToBottom();
   }
@@ -23,6 +23,6 @@ window.setInterval(function() {
 
 // Scroll to the bottom of the chat window.
 function scrollToBottom(){
-  var elem = document.getElementById('chat');
+  var elem = document.getElementById('chat_result');
   elem.scrollTop = elem.scrollHeight;
 }
