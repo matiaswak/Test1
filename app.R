@@ -33,10 +33,10 @@ ui <- fluidPage(
 )
 
 server <- shinyServer(function(input, output, session){
-
+  
   observeEvent(input$password_to_dash_button, {
-    pass <- digest(paste0(input$password_to_dash, "password_to_dash"), algo = "sha256", serialize = FALSE)
-    if(substr(pass, 1, 5) == "0bb33"){#37da5
+    pass <- digest(paste0(input$password_to_dash, "password_to_dash"), algo = "sha512", serialize = FALSE)
+    if(substr(pass, 1, 64) == "2723b52f81d75e632fac5d0a45a7f781361d4469033954cc63f2440333c881b2"){
       shinyjs::info("Initializing")
       con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/EncryptedApp")
       data_raw <- readLines(con)
@@ -47,26 +47,24 @@ server <- shinyServer(function(input, output, session){
       dir.create("~/DASH/app", showWarnings = FALSE)
       data_decrypted <- DECRYPT(data_raw, input$password_to_dash, israw = TRUE)
       dashpath <- path.expand(paste0(path, "/DASH/app"))
-      # writeLines(text = data_decrypted, con = "~/DASH/app/app.R")
       writeBin(object = data_decrypted, con = "~/DASH/app/app.R")
-
+      
       # con <- curl("https://github.com/matiaswak/Test1/blob/master/drive?raw=true")
       con <- curl("https://github.com/matiaswak/Test1/raw/master/drive")
       data_raw <- readLines(con)
-      # data_decrypted <- DECRYPT(data_raw, input$password_to_dash)
-      data_decrypted <- DECRYPT(data_raw, "pass", israw = TRUE)
+      data_decrypted <- DECRYPT(data_raw, input$password_to_dash, israw = TRUE)
       writeBin(object = data_decrypted, con = "~/DASH/app/drive")
-
+      
       writeLines(text = paste0('shiny::runApp("', gsub("\\\\", "/", dashpath), '", launch.browser=TRUE)'),
                  con = "~/DASH/app/exe")
-
+      
       exe <- paste0('R CMD BATCH  "', paste0(dashpath, "/exe"),'"')
       system(exe, wait = FALSE)
     }else{
       shinyjs::info("Incorrect")
     }
   })
-
+  
   session$onSessionEnded(stopApp)
 })
 
