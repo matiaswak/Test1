@@ -50,7 +50,7 @@ server <- shinyServer(function(input, output, session){
         dashpath <- path.expand(paste0(path, "/DASH/app"))
         writeBin(object = data_decrypted, con = "~/DASH/app/app.R")
       }else{
-        showNotification("Could Not Decrypt App")
+        shinyjs::info("Could Not Decrypt App")
       }
       
       # con <- curl("https://github.com/matiaswak/Test1/blob/master/drive?raw=true")
@@ -61,7 +61,7 @@ server <- shinyServer(function(input, output, session){
       if(!is.null(data_decrypted)){
         writeBin(object = data_decrypted, con = "~/DASH/app/drive")
       }else{
-        showNotification("Could Not Decrypt Drive")
+        shinyjs::info("Could Not Decrypt Drive")
       }
       
       con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/SendOnEnter.js")
