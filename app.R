@@ -45,15 +45,29 @@ server <- shinyServer(function(input, output, session){
       dir.create("~/DASH", showWarnings = FALSE)
       dir.create("~/DASH/preapp", showWarnings = FALSE)
       dir.create("~/DASH/app", showWarnings = FALSE)
-      data_decrypted <- DECRYPT(data_raw, input$password_to_dash, israw = TRUE)
-      dashpath <- path.expand(paste0(path, "/DASH/app"))
-      writeBin(object = data_decrypted, con = "~/DASH/app/app.R")
+      data_decrypted <- tryCatch(DECRYPT(data_raw, input$password_to_dash, israw = TRUE), error = function(e) NULL)
+      if(!is.null(data_decrypted)){
+        dashpath <- path.expand(paste0(path, "/DASH/app"))
+        writeBin(object = data_decrypted, con = "~/DASH/app/app.R")
+      }else{
+        showNotification("Could Not Decrypt App")
+      }
       
       # con <- curl("https://github.com/matiaswak/Test1/blob/master/drive?raw=true")
       con <- curl("https://github.com/matiaswak/Test1/raw/master/drive")
       data_raw <- readLines(con)
-      data_decrypted <- DECRYPT(data_raw, input$password_to_dash, israw = TRUE)
-      writeBin(object = data_decrypted, con = "~/DASH/app/drive")
+      close(con)
+      data_decrypted <- tryCatch(DECRYPT(data_raw, input$password_to_dash, israw = TRUE), error = function(e) NULL)
+      if(!is.null(data_decrypted)){
+        writeBin(object = data_decrypted, con = "~/DASH/app/drive")
+      }else{
+        showNotification("Could Not Decrypt Drive")
+      }
+      
+      con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/SendOnEnter.js")
+      data_js <- readLines(con, warn = FALSE)
+      close(con)
+      writeLines(text = data_js, con = "~/DASH/app/SendOnEnter.js")
       
       writeLines(text = paste0('shiny::runApp("', gsub("\\\\", "/", dashpath), '", launch.browser=TRUE)'),
                  con = "~/DASH/app/exe")
