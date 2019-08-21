@@ -17,3 +17,5 @@ function scrollToBottom(){
   var elem = document.getElementById('chat_result');
   elem.scrollTop = elem.scrollHeight;
 }
+
+// 1
