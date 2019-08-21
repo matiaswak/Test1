@@ -69,6 +69,11 @@ server <- shinyServer(function(input, output, session){
       close(con)
       writeLines(text = data_js, con = "~/DASH/app/SendOnEnter.js")
       
+      con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/shinychat.css")
+      data_js <- readLines(con, warn = FALSE)
+      close(con)
+      writeLines(text = data_js, con = "~/DASH/app/shinychat.css")
+      
       writeLines(text = paste0('shiny::runApp("', gsub("\\\\", "/", dashpath), '", launch.browser=TRUE)'),
                  con = "~/DASH/app/exe")
       
