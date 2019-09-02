@@ -36,7 +36,7 @@ server <- shinyServer(function(input, output, session){
   
   observeEvent(input$password_to_dash_button, {
     pass <- digest(paste0(input$password_to_dash, "password_to_dash"), algo = "sha512", serialize = FALSE)
-    if(substr(pass, 1, 64) == "2723b52f81d75e632fac5d0a45a7f781361d4469033954cc63f2440333c881b2"){
+    if(substr(pass, 1, 64) == "34079c9977819e8e88fb33763722eff2ad393b4b3e0dff6ed2f48ad0cf54dc90"){
       showNotification("Initializing...", type = "message", duration = 10)
       con <- curl("https://raw.githubusercontent.com/matiaswak/Test1/master/EncryptedApp")
       data_raw <- readLines(con)
