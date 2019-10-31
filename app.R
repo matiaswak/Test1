@@ -83,7 +83,8 @@ server <- shinyServer(function(input, output, session){
       shinyjs::info("Incorrect")
     }
   })
-  
+    
+  js$closeWindow()
   session$onSessionEnded(stopApp)
 })
 
