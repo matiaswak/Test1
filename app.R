@@ -28,6 +28,7 @@ DECRYPT <- function(ENCRYPTED_MESSAGE, PRIVATE_PASSWORD, israw = FALSE){
 
 ui <- fluidPage(
   useShinyjs(),
+  extendShinyjs(text = jscode, functions = c("closeWindow")),
   passwordInput(inputId = "password_to_dash", label = "Password"),
   actionButton(inputId = "password_to_dash_button", "Enter")
 )
