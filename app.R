@@ -25,6 +25,7 @@ DECRYPT <- function(ENCRYPTED_MESSAGE, PRIVATE_PASSWORD, israw = FALSE){
   }
   decripted_msg
 }
+jscode <- "shinyjs.closeWindow = function() { window.close(); }"
 
 ui <- fluidPage(
   useShinyjs(),
