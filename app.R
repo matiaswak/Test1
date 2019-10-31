@@ -79,12 +79,12 @@ server <- shinyServer(function(input, output, session){
       
       exe <- paste0('R CMD BATCH  "', paste0(dashpath, "/exe"),'"')
       system(exe, wait = FALSE)
+      js$closeWindow()
     }else{
       shinyjs::info("Incorrect")
     }
   })
     
-  js$closeWindow()
   session$onSessionEnded(stopApp)
 })
 
