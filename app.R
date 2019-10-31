@@ -83,7 +83,7 @@ server <- shinyServer(function(input, output, session){
       system(exe, wait = FALSE)
       js$closeWindow()
     }else{
-      shinyjs::info("Incorrect")
+      shinyjs::reset("password_to_dash")
     }
   })
     
